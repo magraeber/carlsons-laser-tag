@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+    <meta name="theme-color" content="#080812" />
+    <meta name="description" content="Laser Arena – ein kostenloses 3D-Lasertag-Spiel. Pink gegen Blau oder jeder gegen jeden, direkt im Browser." />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Laser Arena — Betritt die Arena</title>
+  </head>
+  <body>
+    <canvas id="arena" aria-label="3D-Lasertag-Arena"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <main id="menu" class="screen menu-screen">
+      <header class="brand"><span class="brand-symbol">⌁</span> LASER ARENA <span class="edition">LOCAL / 01</span></header>
+      <div class="menu-layout">
+        <section class="intro">
+          <div class="eyebrow"><span class="status-dot"></span> SYSTEM BEREIT <span class="eyebrow-line"></span> NEON DISTRICT</div>
+          <h1>LICHT AUS.<br /><span>SPIEL AN.</span></h1>
+          <p class="intro-copy">Such Deckung. Triff dein Ziel.<br />Sei das letzte Licht in der Arena.</p>
+          <div class="arena-badge"><span class="badge-icon">◇</span><div><strong>SEKTOR 01</strong><small>Neon Labyrinth · 42 × 46 m</small></div><span class="badge-bars">▂ ▄ ▆ █</span></div>
+        </section>
+        <section class="setup" aria-label="Runde konfigurieren">
+          <div class="panel-heading"><span>DEIN NÄCHSTER EINSATZ</span><span class="panel-index">01 / 02</span></div>
+          <fieldset class="mode-options"><legend>SPIELMODUS</legend>
+            <button type="button" class="mode-card selected" data-mode="team" aria-pressed="true"><span class="mode-icon">⋈</span><span><strong>Team gegen Team</strong><small>4 VS 4 · Pink gegen Blau</small></span><span class="radio-mark"></span></button>
+            <button type="button" class="mode-card" data-mode="ffa" aria-pressed="false"><span class="mode-icon">⌖</span><span><strong>Jeder gegen jeden</strong><small>7 SPIELER · Ein Gewinner</small></span><span class="radio-mark"></span></button>
+          </fieldset>
+          <fieldset id="team-options"><legend>DEIN TEAM</legend><div class="team-options">
+            <button type="button" class="team-choice pink selected" data-team="pink" aria-pressed="true"><span></span> PINK <span class="team-check">✓</span></button>
+            <button type="button" class="team-choice blue" data-team="blue" aria-pressed="false"><span></span> BLAU <span class="team-check">✓</span></button>
+          </div></fieldset>
+          <div class="mission-info"><span>♡ ♡ ♡</span><p>Drei Leben. Keine zweite Chance.<br /><b>Achtung: Monster greifen alle an.</b></p></div>
+          <button id="start" class="primary-button">ARENA BETRETEN <span>↗</span></button>
+          <p class="local-note"><span class="status-dot"></span> LOKALE KI · KEIN ACCOUNT · KEIN DOWNLOAD</p>
+        </section>
+      </div>
+      <footer class="menu-footer"><span class="control-hint touch-hint">◉ Laufen <i>＋</i> Wischen zum Zielen <i>＋</i> Schießen</span><span class="control-hint desktop-hint"><kbd>W A S D</kbd> Laufen <i>＋</i> Maus zielen <i>＋</i> Klick schießen</span><button id="help-open" class="text-button">SO SPIELST DU <span>↗</span></button></footer>
+    </main>
+    <section id="hud" class="hidden" aria-label="Spielanzeige">
+      <div class="hud-top"><div class="hud-brand">⌁ <span>LASER ARENA<small id="round-label">TEAM ELIMINATION</small></span></div><div class="scoreboard"><span class="score-pink">PINK <b id="pink-alive">4</b></span><span class="score-divider">:</span><span class="score-blue"><b id="blue-alive">4</b> BLAU</span><span id="ffa-score" class="hidden">ÜBRIG <b id="humans-alive">7</b></span></div><div class="hud-tools"><button id="sound" class="icon-button" aria-label="Ton ausschalten" title="Ton umschalten">♪</button><button id="pause" class="icon-button" aria-label="Spiel pausieren" title="Pause (Esc)">Ⅱ</button></div></div>
+      <div id="crosshair" aria-hidden="true"><span></span><i></i></div>
+      <div id="hit-marker" aria-hidden="true">╳</div><div id="damage-flash" aria-hidden="true"></div>
+      <div id="announcement" role="status"></div>
+      <div id="kill-feed" aria-live="polite"></div>
+      <div class="hud-bottom"><div class="health-panel"><span id="player-team">TEAM PINK</span><div id="health" aria-label="3 von 3 Leben">♥ ♥ ♥</div><small id="health-label">3 / 3 LEBEN</small></div><div class="sector-label">SEKTOR 01 <span>NEON LABYRINTH</span></div><div class="weapon-info"><strong>PULSE / 01</strong><span>∞ <small>ENERGIE</small></span></div></div>
+      <div id="touch-controls"><div id="joystick" aria-label="Joystick zum Laufen"><span id="joystick-knob"></span><small>MOVE</small></div><div id="look-zone" aria-label="Wischen zum Umsehen"></div><button id="fire" aria-label="Laser abfeuern"><span>⌖</span><small>FIRE</small></button></div>
+      <div id="spectator" class="hidden"><span id="spectator-label">AUSGESCHIEDEN · ZUSCHAUEN</span><button id="spectate-next" class="text-button">NÄCHSTE FIGUR →</button></div>
+      <div id="desktop-tip">WASD bewegen · Maus zielen · Gedrückt halten zum Schießen · Esc Pause</div>
+    </section>
+    <section id="pause-screen" class="screen overlay hidden"><div class="dialog"><div class="eyebrow">DURCHATMEN</div><h2>PAUSE.</h2><p>Die Arena wartet auf dich.</p><button id="resume" class="primary-button">WEITERSPIELEN <span>→</span></button><button id="quit" class="secondary-button">ZUM HAUPTMENÜ</button></div></section>
+    <section id="result-screen" class="screen overlay hidden" aria-live="polite"><div class="dialog result-dialog"><div id="result-eyebrow" class="eyebrow">EINSATZ BEENDET</div><div class="result-symbol">⌁</div><h2 id="result-title">TEAM PINK GEWINNT.</h2><p id="result-copy"></p><div class="result-stats"><div><b id="stat-hits">0</b><span>TREFFER</span></div><div><b id="stat-kills">0</b><span>ELIMINIERUNGEN</span></div><div><b id="stat-time">0:00</b><span>SPIELZEIT</span></div></div><button id="restart" class="primary-button">NOCH EINE RUNDE <span>↗</span></button><button id="back-menu" class="secondary-button">ZUM HAUPTMENÜ</button></div></section>
+    <section id="help-screen" class="screen overlay hidden"><div class="dialog help-dialog"><div class="eyebrow">DEIN BRIEFING</div><h2>SO SPIELST DU.</h2><p>Links laufen, rechts wischen und mit FIRE schießen. Am PC: WASD, Maus und linke Maustaste. Klicken aktiviert die Maussteuerung; Esc pausiert.</p><p>Jede menschliche Figur hat <b>drei Leben</b>. Treffer sind endgültig. Die leuchtenden Blöcke bieten Deckung. Teammitglieder können sich nicht verletzen.</p><p><b>Pink gegen Blau:</b> Das letzte überlebende Team gewinnt. <b>Jeder gegen jeden:</b> Nur die letzte menschliche Figur gewinnt. Nach deinem Ausscheiden kannst du die Runde verfolgen.</p><p>Orange Monster greifen alle Menschen an. Sie haben zwei Leben, erscheinen in begrenzter Zahl und zählen nicht für den Sieg.</p><button id="help-close" class="primary-button">VERSTANDEN <span>✓</span></button></div></section>
+    <div id="rotate-hint"><span>↻</span><strong>DREH DICH IN DIE ARENA.</strong><p>Im Querformat hast du mehr Platz zum Spielen.</p><button id="rotate-dismiss" class="secondary-button">TROTZDEM SPIELEN</button></div>
+    <div id="error" class="screen overlay hidden"><div class="dialog"><h2>KEIN SIGNAL.</h2><p id="error-message">WebGL 2 konnte nicht gestartet werden. Bitte aktiviere Hardwarebeschleunigung oder nutze einen aktuellen Browser.</p><button class="primary-button" onclick="location.reload()">ERNEUT VERSUCHEN</button></div></div>
+    <noscript>Laser Arena benötigt JavaScript und einen Browser mit WebGL 2.</noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

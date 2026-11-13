@@ -1,0 +1,36 @@
+{
+  "name": "Laser Arena · Node.js 24",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "node",
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-${devcontainerId}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ],
+  "containerEnv": {
+    "CHOKIDAR_USEPOLLING": "true",
+    "CHOKIDAR_INTERVAL": "250"
+  },
+  "postCreateCommand": "sudo chown -R node:node node_modules && npm ci",
+  "waitFor": "postCreateCommand",
+  "runArgs": ["--publish=5173:5173"],
+  "forwardPorts": [5173, 4173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Laser Arena · Entwicklung",
+      "onAutoForward": "notify",
+      "requireLocalPort": true
+    },
+    "4173": {
+      "label": "Laser Arena · Build-Vorschau",
+      "onAutoForward": "notify"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
